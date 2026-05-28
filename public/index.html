@@ -297,7 +297,46 @@
   let lastOutgoing = 0;
   let activityLog = JSON.parse(localStorage.getItem('dropin_log') || '[]');
 
-  // Render slots grid
+  // Connect directly to OOCSI via WebSocket
+  const ws = new WebSocket('ws://oocsi.id.tue.nl/ws');
+
+  ws.onopen = () => {
+    console.log('OOCSI connected');
+    // Register and subscribe to Dropin_Count
+    ws.send(JSON.stringify({ id: 'dropin-box-app' }));
+    setTimeout(() => {
+      ws.send(JSON.stringify({ subscribe: 'Dropin_Count' }));
+    }, 500);
+  };
+
+  ws.onmessage = (event) => {
+    try {
+      const msg = JSON.parse(event.data);
+      if (msg.incoming !== undefined || msg.outgoing !== undefined) {
+        const newIn  = parseInt(msg.incoming ?? lastIncoming);
+        const newOut = parseInt(msg.outgoing ?? lastOutgoing);
+
+        if (newIn > lastIncoming) {
+          for (let i = 0; i < newIn - lastIncoming; i++) addLogEntry('in');
+        }
+        if (newOut > lastOutgoing) {
+          for (let i = 0; i < newOut - lastOutgoing; i++) addLogEntry('out');
+        }
+
+        lastIncoming = newIn;
+        lastOutgoing = newOut;
+        incoming = newIn;
+        outgoing = newOut;
+        updateUI();
+      }
+    } catch(e) { console.log('parse error', e); }
+  };
+
+  ws.onclose = () => {
+    console.log('OOCSI disconnected — reconnecting...');
+    setTimeout(() => location.reload(), 3000);
+  };
+
   function renderSlots() {
     const row = document.getElementById('slotsRow');
     const current = Math.max(0, incoming - outgoing);
@@ -309,7 +348,6 @@
     }
   }
 
-  // Update all UI
   function updateUI() {
     const current = Math.max(0, incoming - outgoing);
     const free    = Math.max(0, MAX_CAPACITY - current);
@@ -328,20 +366,17 @@
     renderLog();
   }
 
-  // Add log entry
-  function addLogEntry(type, count) {
+  function addLogEntry(type) {
     const now = new Date();
     activityLog.unshift({
       type,
-      count,
       time: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
       date: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
     });
-    activityLog = activityLog.slice(0, 50); // keep last 50
+    activityLog = activityLog.slice(0, 50);
     localStorage.setItem('dropin_log', JSON.stringify(activityLog));
   }
 
-  // Render log
   function renderLog() {
     const body = document.getElementById('logBody');
     if (!activityLog.length) {
@@ -358,50 +393,16 @@
       </div>`).join('');
   }
 
-  // Poll OOCSI via proxy
-async function pollStatus() {
-  try {
-    const res  = await fetch('/api/status');
-    const data = await res.json();
-    if (!data.ok) return;
-
-    const newIn  = parseInt(data.incoming ?? 0);
-    const newOut = parseInt(data.outgoing ?? 0);
-
-    // Detect changes and add log entries
-    if (newIn > lastIncoming) {
-      for (let i = 0; i < newIn - lastIncoming; i++) addLogEntry('in', newIn);
-    }
-    if (newOut > lastOutgoing) {
-      for (let i = 0; i < newOut - lastOutgoing; i++) addLogEntry('out', newOut);
-    }
-
-    lastIncoming = newIn;
-    lastOutgoing = newOut;
-    incoming = newIn;
-    outgoing = newOut;
-    updateUI();
-
-  } catch (e) {
-    console.log('Poll error:', e);
-  }
-}
-
   function clearLog() {
     activityLog = [];
     localStorage.removeItem('dropin_log');
     renderLog();
   }
 
-  function refresh() { pollStatus(); }
+  function refresh() { location.reload(); }
 
-  // Initial render
   renderSlots();
   renderLog();
-
-  // Poll every 3 seconds
-  pollStatus();
-  setInterval(pollStatus, 3000);
 </script>
 </body>
 </html>
