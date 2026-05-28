@@ -21,204 +21,55 @@
     --warning: #D97706;
     --warning-bg: #FFFBEB;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    max-width: 430px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .topbar {
-    background: var(--white);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; max-width: 430px; margin: 0 auto; display: flex; flex-direction: column; }
+  .topbar { background: var(--white); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
   .topbar-logo { font-size: 17px; font-weight: 800; letter-spacing: 0.06em; }
-  .topbar-icon {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; color: var(--muted);
-    background: var(--white);
-    cursor: pointer;
-  }
-
-  .body {
-    flex: 1;
-    padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
+  .topbar-icon { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--muted); background: var(--white); cursor: pointer; }
+  .body { flex: 1; padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
   .page-title { font-size: 24px; font-weight: 800; }
-  .page-sub   { font-size: 14px; color: var(--muted); margin-top: 4px; }
-
-  /* Capacity card */
-  .capacity-card {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .capacity-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  .page-sub { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .capacity-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .capacity-header { display: flex; justify-content: space-between; align-items: center; }
   .capacity-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
   .capacity-fraction { font-size: 28px; font-weight: 800; color: var(--text); }
   .capacity-fraction span { font-size: 16px; color: var(--muted); font-weight: 500; }
-
-  /* Progress bar */
-  .progress-bar {
-    width: 100%;
-    height: 10px;
-    background: var(--bg);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    border-radius: 10px;
-    background: var(--blue);
-    transition: width 0.5s ease;
-  }
+  .progress-bar { width: 100%; height: 10px; background: var(--bg); border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 10px; background: var(--blue); transition: width 0.5s ease; }
   .progress-fill.warning { background: var(--warning); }
-  .progress-fill.danger  { background: var(--danger); }
-
-  /* Capacity slots */
-  .slots-row {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-  }
-  .slot {
-    width: 20px; height: 20px;
-    border-radius: 4px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    transition: all 0.3s;
-  }
+  .progress-fill.danger { background: var(--danger); }
+  .slots-row { display: flex; gap: 5px; flex-wrap: wrap; }
+  .slot { width: 20px; height: 20px; border-radius: 4px; background: var(--bg); border: 1.5px solid var(--border); transition: all 0.3s; }
   .slot.filled { background: var(--blue); border-color: var(--blue); }
   .slot.filled.warning { background: var(--warning); border-color: var(--warning); }
-  .slot.filled.danger  { background: var(--danger);  border-color: var(--danger); }
-
-  /* Stats row */
-  .stats-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-  }
-  .stat-card {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
+  .slot.filled.danger { background: var(--danger); border-color: var(--danger); }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .stat-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 12px; display: flex; flex-direction: column; gap: 4px; }
   .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
   .stat-value { font-size: 24px; font-weight: 800; color: var(--text); }
-  .stat-sub   { font-size: 11px; color: var(--muted); }
+  .stat-sub { font-size: 11px; color: var(--muted); }
   .stat-value.green { color: var(--success); }
-  .stat-value.red   { color: var(--danger); }
-  .stat-value.blue  { color: var(--blue); }
-
-  /* Section label */
-  .section-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-
-  /* Activity log */
-  .log-card {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  .log-header {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  .stat-value.blue { color: var(--blue); }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .log-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .log-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .log-header-title { font-size: 13px; font-weight: 700; }
-  .log-clear {
-    font-size: 11px; color: var(--blue); font-weight: 600;
-    background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif;
-  }
+  .log-clear { font-size: 11px; color: var(--blue); font-weight: 600; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
   .log-body { max-height: 320px; overflow-y: auto; }
   .log-body::-webkit-scrollbar { width: 3px; }
   .log-body::-webkit-scrollbar-thumb { background: var(--border); }
-
-  .log-entry {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
+  .log-entry { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
   .log-entry:last-child { border-bottom: none; }
   .log-entry:hover { background: var(--bg); }
-
-  .log-icon {
-    width: 34px; height: 34px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-  .log-icon.in  { background: var(--success-bg); }
+  .log-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .log-icon.in { background: var(--success-bg); }
   .log-icon.out { background: var(--danger-bg); }
-
   .log-info { flex: 1; }
   .log-action { font-size: 14px; font-weight: 600; color: var(--text); }
-  .log-time   { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  .log-empty {
-    padding: 32px 16px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  /* Live indicator */
-  .live-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--success);
-    display: inline-block;
-    margin-right: 5px;
-    animation: blink 2s infinite;
-  }
+  .log-time { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .log-empty { padding: 32px 16px; text-align: center; color: var(--muted); font-size: 13px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); display: inline-block; margin-right: 5px; animation: blink 2s infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
   .live-label { font-size: 11px; color: var(--success); font-weight: 600; }
 </style>
 </head>
@@ -227,36 +78,24 @@
 <div class="topbar">
   <div class="topbar-icon">☰</div>
   <div class="topbar-logo">DROPIN</div>
-  <div class="topbar-icon" onclick="refresh()" title="Refresh">↺</div>
+  <div class="topbar-icon" onclick="refresh()">↺</div>
 </div>
 
 <div class="body">
-
   <div>
     <div class="page-title">Main Compartment Status</div>
-    <div class="page-sub">
-      <span class="live-dot"></span>
-      <span class="live-label">Live</span>
-      — updates automatically
-    </div>
+    <div class="page-sub"><span class="live-dot"></span><span class="live-label">Live</span> — updates automatically</div>
   </div>
 
-  <!-- Capacity card -->
   <div class="capacity-card">
     <div class="capacity-header">
       <div class="capacity-title">Capacity</div>
-      <div class="capacity-fraction">
-        <span id="currentCount">0</span>
-        <span>/ 14</span>
-      </div>
+      <div class="capacity-fraction"><span id="currentCount">0</span><span>/ 14</span></div>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="slots-row" id="slotsRow"></div>
   </div>
 
-  <!-- Stats -->
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-label">In box</div>
@@ -275,7 +114,6 @@
     </div>
   </div>
 
-  <!-- Activity log -->
   <div class="section-label">Activity Log</div>
   <div class="log-card">
     <div class="log-header">
@@ -286,9 +124,9 @@
       <div class="log-empty">No activity yet — waiting for packages...</div>
     </div>
   </div>
-
 </div>
 
+<script src="https://cdn.jsdelivr.net/gh/iddi/oocsi-websocket/dist/oocsi-websocket.min.js"></script>
 <script>
   const MAX_CAPACITY = 14;
   let incoming = 0;
@@ -297,50 +135,23 @@
   let lastOutgoing = 0;
   let activityLog = JSON.parse(localStorage.getItem('dropin_log') || '[]');
 
-  // Connect directly to OOCSI via WebSocket
-  const ws = new WebSocket('wss://oocsi.id.tue.nl/ws');
+  OOCSI.connect('wss://oocsi.id.tue.nl/ws');
 
-  ws.onopen = () => {
-    console.log('OOCSI connected');
-    // Register and subscribe to Dropin_Count
-    ws.send(JSON.stringify({ id: 'dropin-box-app' }));
-    setTimeout(() => {
-      ws.send(JSON.stringify({ subscribe: 'Dropin_Count' }));
-    }, 500);
-  };
-
-  ws.onmessage = (event) => {
-  try {
-    // Ignore ping messages
-    if (event.data === 'ping' || event.data.startsWith('ping')) return;
-    
-    const msg = JSON.parse(event.data);
-    if (msg.incoming !== undefined || msg.outgoing !== undefined) {
-      const newIn  = parseInt(msg.incoming ?? lastIncoming);
-      const newOut = parseInt(msg.outgoing ?? lastOutgoing);
-
-      if (newIn > lastIncoming) {
-        for (let i = 0; i < newIn - lastIncoming; i++) addLogEntry('in');
-      }
-      if (newOut > lastOutgoing) {
-        for (let i = 0; i < newOut - lastOutgoing; i++) addLogEntry('out');
-      }
-
-      lastIncoming = newIn;
-      lastOutgoing = newOut;
-      incoming = newIn;
-      outgoing = newOut;
-      updateUI();
+  OOCSI.subscribe('Dropin_Count', function(msg) {
+    const newIn  = parseInt(msg.data.incoming ?? lastIncoming);
+    const newOut = parseInt(msg.data.outgoing ?? lastOutgoing);
+    if (newIn > lastIncoming) {
+      for (let i = 0; i < newIn - lastIncoming; i++) addLogEntry('in');
     }
-  } catch(e) { 
-    // Ignore non-JSON messages silently
-  }
-};
-  
-  ws.onclose = () => {
-    console.log('OOCSI disconnected — reconnecting...');
-    setTimeout(() => location.reload(), 3000);
-  };
+    if (newOut > lastOutgoing) {
+      for (let i = 0; i < newOut - lastOutgoing; i++) addLogEntry('out');
+    }
+    lastIncoming = newIn;
+    lastOutgoing = newOut;
+    incoming = newIn;
+    outgoing = newOut;
+    updateUI();
+  });
 
   function renderSlots() {
     const row = document.getElementById('slotsRow');
@@ -357,16 +168,13 @@
     const current = Math.max(0, incoming - outgoing);
     const free    = Math.max(0, MAX_CAPACITY - current);
     const pct     = Math.min(100, (current / MAX_CAPACITY) * 100);
-
     document.getElementById('currentCount').textContent = current;
     document.getElementById('statCurrent').textContent  = current;
     document.getElementById('statFree').textContent     = free;
     document.getElementById('statTotalIn').textContent  = incoming;
-
     const fill = document.getElementById('progressFill');
     fill.style.width = pct + '%';
     fill.className = 'progress-fill' + (pct >= 100 ? ' danger' : pct >= 80 ? ' warning' : '');
-
     renderSlots();
     renderLog();
   }
