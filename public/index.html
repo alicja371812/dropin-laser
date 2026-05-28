@@ -298,7 +298,7 @@
   let activityLog = JSON.parse(localStorage.getItem('dropin_log') || '[]');
 
   // Connect directly to OOCSI via WebSocket
-  const ws = new WebSocket('ws://oocsi.id.tue.nl/ws');
+  const ws = new WebSocket('wss://oocsi.id.tue.nl/ws');
 
   ws.onopen = () => {
     console.log('OOCSI connected');
