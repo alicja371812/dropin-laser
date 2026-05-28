@@ -359,34 +359,33 @@
   }
 
   // Poll OOCSI via proxy
-  async function pollStatus() {
-    try {
-      const res  = await fetch('/api/status');
-      const data = await res.json();
-      if (!data.ok) return;
+async function pollStatus() {
+  try {
+    const res  = await fetch('/api/status');
+    const data = await res.json();
+    if (!data.ok) return;
 
-      const parsed = JSON.parse(data.data);
-      const newIn  = parseInt(parsed.incoming ?? 0);
-      const newOut = parseInt(parsed.outgoing ?? 0);
+    const newIn  = parseInt(data.incoming ?? 0);
+    const newOut = parseInt(data.outgoing ?? 0);
 
-      // Detect changes and add log entries
-      if (newIn > lastIncoming) {
-        for (let i = 0; i < newIn - lastIncoming; i++) addLogEntry('in', newIn);
-      }
-      if (newOut > lastOutgoing) {
-        for (let i = 0; i < newOut - lastOutgoing; i++) addLogEntry('out', newOut);
-      }
-
-      lastIncoming = newIn;
-      lastOutgoing = newOut;
-      incoming = newIn;
-      outgoing = newOut;
-      updateUI();
-
-    } catch (e) {
-      console.log('Poll error:', e);
+    // Detect changes and add log entries
+    if (newIn > lastIncoming) {
+      for (let i = 0; i < newIn - lastIncoming; i++) addLogEntry('in', newIn);
     }
+    if (newOut > lastOutgoing) {
+      for (let i = 0; i < newOut - lastOutgoing; i++) addLogEntry('out', newOut);
+    }
+
+    lastIncoming = newIn;
+    lastOutgoing = newOut;
+    incoming = newIn;
+    outgoing = newOut;
+    updateUI();
+
+  } catch (e) {
+    console.log('Poll error:', e);
   }
+}
 
   function clearLog() {
     activityLog = [];
