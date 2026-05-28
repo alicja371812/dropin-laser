@@ -1,20 +1,24 @@
-// api/status.js — fetches latest count data from OOCSI
+// api/status.js
+// Stores and retrieves package counts in memory
+
+let counts = { incoming: 0, outgoing: 0, updatedAt: null };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  try {
-    const response = await fetch(
-      'https://oocsi.id.tue.nl/data/Dropin_Count',
-      { headers: { 'Accept': 'application/json' } }
-    );
-
-    const text = await response.text();
-    return res.status(200).json({ ok: true, data: text, status: response.status });
-
-  } catch (err) {
-    return res.status(500).json({ ok: false, error: err.message });
+  // ESP32 posts new counts here
+  if (req.method === 'POST') {
+    const { incoming, outgoing } = req.body || {};
+    if (incoming !== undefined) counts.incoming = incoming;
+    if (outgoing !== undefined) counts.outgoing = outgoing;
+    counts.updatedAt = new Date().toISOString();
+    console.log('Counts updated:', counts);
+    return res.status(200).json({ ok: true });
   }
+
+  // App fetches counts here
+  return res.status(200).json({ ok: true, ...counts });
 }
